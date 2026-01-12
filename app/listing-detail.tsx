@@ -202,7 +202,7 @@ const styles = StyleSheet.create({
     },
     imageCounter: {
         position: 'absolute',
-        bottom: 16,
+        bottom: 40,
         right: 16,
         backgroundColor: 'rgba(0, 0, 0, 0.7)',
         paddingHorizontal: 12,
