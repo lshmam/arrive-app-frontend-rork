@@ -4,7 +4,6 @@ import { router, Stack } from 'expo-router';
 import { Search, SlidersHorizontal, Star, Zap } from 'lucide-react-native';
 import React, { useState } from 'react';
 import { Dimensions, Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 
 const { width, height } = Dimensions.get('window');
 
@@ -114,33 +113,10 @@ export default function RenterHomeScreen() {
 
             {viewMode === 'map' ? (
                 <View style={styles.mapContainer}>
-                    <MapView
-                        provider={PROVIDER_GOOGLE}
-                        style={styles.map}
-                        initialRegion={{
-                            latitude: 43.6532,
-                            longitude: -79.3832,
-                            latitudeDelta: 0.1,
-                            longitudeDelta: 0.1,
-                        }}
-                    >
-                        {filteredListings.map((listing) => (
-                            <Marker
-                                key={listing.id}
-                                coordinate={{
-                                    latitude: listing.latitude,
-                                    longitude: listing.longitude,
-                                }}
-                                onPress={() => router.push(`/listing-detail?id=${listing.id}` as any)}
-                            >
-                                <View style={styles.markerContainer}>
-                                    <View style={styles.marker}>
-                                        <Text style={styles.markerText}>${listing.hourlyRate}</Text>
-                                    </View>
-                                </View>
-                            </Marker>
-                        ))}
-                    </MapView>
+                    <ParkingMap
+                        listings={filteredListings}
+                        onListingPress={(id) => router.push(`/listing-detail?id=${id}` as any)}
+                    />
 
                     <View style={styles.carouselContainer}>
                         <ScrollView
@@ -220,31 +196,7 @@ const styles = StyleSheet.create({
         flex: 1,
         position: 'relative',
     },
-    map: {
-        width: width,
-        height: height,
-    },
-    markerContainer: {
-        alignItems: 'center',
-    },
-    marker: {
-        backgroundColor: '#000',
-        paddingHorizontal: 12,
-        paddingVertical: 6,
-        borderRadius: 20,
-        borderWidth: 2,
-        borderColor: '#FFF',
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.25,
-        shadowRadius: 4,
-        elevation: 5,
-    },
-    markerText: {
-        color: '#FFF',
-        fontSize: 14,
-        fontWeight: '700' as const,
-    },
+
     headerToggle: {
         flexDirection: 'row',
         backgroundColor: '#FFF',
