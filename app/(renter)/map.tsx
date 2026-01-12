@@ -1,6 +1,6 @@
 import { listings } from '@/constants/mockData';
 import { ParkingListing } from '@/types';
-import { router } from 'expo-router';
+import { router, Stack } from 'expo-router';
 import { Search, SlidersHorizontal, Star, Zap } from 'lucide-react-native';
 import React, { useState } from 'react';
 import { Dimensions, Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
@@ -57,6 +57,42 @@ export default function RenterHomeScreen() {
 
     return (
         <View style={styles.container}>
+            <Stack.Screen
+                options={{
+                    headerRight: () => (
+                        <View style={styles.headerToggle}>
+                            <TouchableOpacity
+                                style={[
+                                    styles.headerToggleButton,
+                                    viewMode === 'map' && styles.headerToggleButtonActive
+                                ]}
+                                onPress={() => setViewMode('map')}
+                            >
+                                <Text style={[
+                                    styles.headerToggleText,
+                                    viewMode === 'map' && styles.headerToggleTextActive
+                                ]}>
+                                    Map
+                                </Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                style={[
+                                    styles.headerToggleButton,
+                                    viewMode === 'list' && styles.headerToggleButtonActive
+                                ]}
+                                onPress={() => setViewMode('list')}
+                            >
+                                <Text style={[
+                                    styles.headerToggleText,
+                                    viewMode === 'list' && styles.headerToggleTextActive
+                                ]}>
+                                    List
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
+                    ),
+                }}
+            />
             <View style={styles.searchContainer}>
                 <View style={styles.searchBar}>
                     <Search size={20} color="#9CA3AF" />
@@ -73,37 +109,6 @@ export default function RenterHomeScreen() {
                     onPress={() => setShowFilters(!showFilters)}
                 >
                     <SlidersHorizontal size={20} color="#000" />
-                </TouchableOpacity>
-            </View>
-
-            <View style={styles.viewToggle}>
-                <TouchableOpacity
-                    style={[
-                        styles.toggleButton,
-                        viewMode === 'map' && styles.toggleButtonActive
-                    ]}
-                    onPress={() => setViewMode('map')}
-                >
-                    <Text style={[
-                        styles.toggleText,
-                        viewMode === 'map' && styles.toggleTextActive
-                    ]}>
-                        Map
-                    </Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    style={[
-                        styles.toggleButton,
-                        viewMode === 'list' && styles.toggleButtonActive
-                    ]}
-                    onPress={() => setViewMode('list')}
-                >
-                    <Text style={[
-                        styles.toggleText,
-                        viewMode === 'list' && styles.toggleTextActive
-                    ]}>
-                        List
-                    </Text>
                 </TouchableOpacity>
             </View>
 
@@ -240,35 +245,29 @@ const styles = StyleSheet.create({
         fontSize: 14,
         fontWeight: '700' as const,
     },
-    viewToggle: {
-        position: 'absolute',
-        top: 16,
-        right: 16,
+    headerToggle: {
         flexDirection: 'row',
         backgroundColor: '#FFF',
-        borderRadius: 12,
-        padding: 4,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.1,
-        shadowRadius: 8,
-        elevation: 3,
-        zIndex: 1000,
-    },
-    toggleButton: {
-        paddingHorizontal: 20,
-        paddingVertical: 8,
         borderRadius: 8,
+        padding: 3,
+        marginRight: 10,
+        borderWidth: 1,
+        borderColor: '#E0E0E0',
     },
-    toggleButtonActive: {
+    headerToggleButton: {
+        paddingHorizontal: 16,
+        paddingVertical: 6,
+        borderRadius: 6,
+    },
+    headerToggleButtonActive: {
         backgroundColor: '#000',
     },
-    toggleText: {
-        fontSize: 14,
+    headerToggleText: {
+        fontSize: 13,
         fontWeight: '600' as const,
         color: '#666',
     },
-    toggleTextActive: {
+    headerToggleTextActive: {
         color: '#FFF',
     },
     carouselContainer: {

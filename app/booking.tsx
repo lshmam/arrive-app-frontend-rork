@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TextInput, TouchableOpacity, Platform, KeyboardAvoidingView } from 'react-native';
-import { Stack, router, useLocalSearchParams } from 'expo-router';
-import { Calendar, Clock, Car, CreditCard, ChevronRight } from 'lucide-react-native';
-import DateTimePicker from '@react-native-community/datetimepicker';
 import { listings } from '@/constants/mockData';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import { Stack, router, useLocalSearchParams } from 'expo-router';
+import { Calendar, Car, ChevronRight, Clock, CreditCard } from 'lucide-react-native';
+import React, { useState } from 'react';
+import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 type VehicleTypeOption = 'sedan' | 'suv' | 'truck' | 'motorcycle' | 'van';
 
@@ -485,6 +485,7 @@ const styles = StyleSheet.create({
     footer: {
         backgroundColor: '#FFF',
         padding: 20,
+        paddingBottom: 28,
         borderTopWidth: 1,
         borderTopColor: '#F0F0F0',
         gap: 12,

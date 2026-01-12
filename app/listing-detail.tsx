@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, Image, TouchableOpacity, Dimensions } from 'react-native';
-import { Stack, router, useLocalSearchParams } from 'expo-router';
-import { Star, MapPin, Shield, Zap, Clock, Car, ChevronLeft } from 'lucide-react-native';
 import { listings } from '@/constants/mockData';
+import { Stack, router, useLocalSearchParams } from 'expo-router';
+import { Car, ChevronLeft, Clock, Shield, Star, Zap } from 'lucide-react-native';
+import React, { useState } from 'react';
+import { Dimensions, Image, ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 const { width } = Dimensions.get('window');
 
@@ -30,8 +30,10 @@ export default function ListingDetailScreen() {
     return (
         <>
             <Stack.Screen options={{ headerShown: false }} />
+            <StatusBar barStyle="dark-content" />
             <View style={styles.container}>
                 <ScrollView showsVerticalScrollIndicator={false}>
+                    {/* Image Gallery */}
                     <View style={styles.imageContainer}>
                         <ScrollView
                             horizontal
@@ -53,89 +55,73 @@ export default function ListingDetailScreen() {
                             <ChevronLeft size={24} color="#111827" />
                         </TouchableOpacity>
 
-                        <View style={styles.imageIndicator}>
-                            {listing.photos.map((_, index) => (
-                                <View
-                                    key={index}
-                                    style={[
-                                        styles.dot,
-                                        index === activeImageIndex && styles.activeDot,
-                                    ]}
-                                />
-                            ))}
+                        <View style={styles.imageCounter}>
+                            <Text style={styles.imageCounterText}>
+                                {activeImageIndex + 1} / {listing.photos.length}
+                            </Text>
                         </View>
                     </View>
 
-                    <View style={styles.content}>
-                        <View style={styles.header}>
-                            <View style={styles.titleContainer}>
-                                <Text style={styles.title}>{listing.title}</Text>
-                                <View style={styles.ratingContainer}>
-                                    <Star size={16} color="#FBBF24" fill="#FBBF24" />
-                                    <Text style={styles.ratingText}>4.8</Text>
-                                    <Text style={styles.reviewCount}>(127 reviews)</Text>
-                                </View>
-                            </View>
-                            <View style={styles.priceContainer}>
-                                <Text style={styles.price}>${listing.hourlyRate}</Text>
-                                <Text style={styles.priceUnit}>/hour</Text>
-                            </View>
+                    {/* Main Content Card */}
+                    <View style={styles.contentCard}>
+                        {/* Title and Location */}
+                        <View style={styles.titleSection}>
+                            <Text style={styles.title}>{listing.title}</Text>
+                            <Text style={styles.subtitle}>{listing.spaceType} in {listing.address.split(',')[1]?.trim() || 'Downtown'}</Text>
+                            <Text style={styles.details}>
+                                {listing.maxVehicleType} · {listing.accessType}
+                            </Text>
                         </View>
 
-                        <View style={styles.locationContainer}>
-                            <MapPin size={18} color="#6B7280" />
-                            <Text style={styles.address}>{listing.address}</Text>
+                        {/* Rating and Reviews Row */}
+                        <View style={styles.statsRow}>
+                            <View style={styles.statBadge}>
+                                <Star size={16} color="#000" fill="#000" />
+                                <Text style={styles.statText}>4.92</Text>
+                            </View>
+                            <View style={styles.statDivider} />
+                            <View style={styles.statBadge}>
+                                <Text style={styles.statText}>619</Text>
+                                <Text style={styles.statLabel}>Reviews</Text>
+                            </View>
                         </View>
 
                         <View style={styles.divider} />
 
-                        <View style={styles.section}>
-                            <Text style={styles.sectionTitle}>Host Information</Text>
-                            <View style={styles.hostContainer}>
+                        {/* Host Information */}
+                        <View style={styles.hostSection}>
+                            <View style={styles.hostHeader}>
                                 <View style={styles.hostAvatar}>
                                     <Text style={styles.hostInitials}>SJ</Text>
+                                    <View style={styles.superHostBadge} />
                                 </View>
                                 <View style={styles.hostInfo}>
-                                    <Text style={styles.hostName}>Sarah J.</Text>
-                                    <View style={styles.hostRating}>
-                                        <Star size={14} color="#FBBF24" fill="#FBBF24" />
-                                        <Text style={styles.hostRatingText}>4.8 · 127 reviews</Text>
-                                    </View>
+                                    <Text style={styles.hostName}>Hosted by Sarah J.</Text>
+                                    <Text style={styles.hostMeta}>Superhost · 10 years hosting</Text>
                                 </View>
                             </View>
                         </View>
 
                         <View style={styles.divider} />
 
+                        {/* Description */}
                         <View style={styles.section}>
-                            <Text style={styles.sectionTitle}>Space Details</Text>
-                            <View style={styles.detailsGrid}>
-                                <View style={styles.detailItem}>
-                                    <Text style={styles.detailLabel}>Type</Text>
-                                    <Text style={styles.detailValue}>{listing.spaceType}</Text>
-                                </View>
-                                <View style={styles.detailItem}>
-                                    <Text style={styles.detailLabel}>Max Vehicle</Text>
-                                    <Text style={styles.detailValue}>{listing.maxVehicleType}</Text>
-                                </View>
-                                {listing.dimensions && (
-                                    <View style={styles.detailItem}>
-                                        <Text style={styles.detailLabel}>Dimensions</Text>
-                                        <Text style={styles.detailValue}>{listing.dimensions}</Text>
-                                    </View>
-                                )}
-                                <View style={styles.detailItem}>
-                                    <Text style={styles.detailLabel}>Access</Text>
-                                    <Text style={styles.detailValue}>{listing.accessType}</Text>
-                                </View>
-                            </View>
-                        </View>
-
-                        <View style={styles.divider} />
-
-                        <View style={styles.section}>
-                            <Text style={styles.sectionTitle}>Description</Text>
                             <Text style={styles.description}>{listing.description}</Text>
+                        </View>
+
+                        <View style={styles.divider} />
+
+                        {/* Amenities */}
+                        <View style={styles.section}>
+                            <Text style={styles.sectionTitle}>What this space offers</Text>
+                            <View style={styles.amenitiesList}>
+                                {listing.amenities.map((amenity, index) => (
+                                    <View key={index} style={styles.amenityRow}>
+                                        {amenityIcons[amenity] || <Shield size={20} color="#000" />}
+                                        <Text style={styles.amenityText}>{amenity}</Text>
+                                    </View>
+                                ))}
+                            </View>
                         </View>
 
                         {listing.accessInstructions && (
@@ -150,34 +136,24 @@ export default function ListingDetailScreen() {
                             </>
                         )}
 
-                        <View style={styles.divider} />
-
-                        <View style={styles.section}>
-                            <Text style={styles.sectionTitle}>Amenities</Text>
-                            <View style={styles.amenitiesGrid}>
-                                {listing.amenities.map((amenity, index) => (
-                                    <View key={index} style={styles.amenityItem}>
-                                        {amenityIcons[amenity] || <Shield size={18} color="#000" />}
-                                        <Text style={styles.amenityText}>{amenity}</Text>
-                                    </View>
-                                ))}
-                            </View>
-                        </View>
-
                         <View style={styles.spacer} />
                     </View>
                 </ScrollView>
 
+                {/* Footer with Pricing */}
                 <View style={styles.footer}>
                     <View style={styles.footerPrice}>
-                        <Text style={styles.footerPriceAmount}>${listing.hourlyRate}/hr</Text>
+                        <View style={styles.priceRow}>
+                            <Text style={styles.footerPriceAmount}>${listing.hourlyRate}</Text>
+                            <Text style={styles.footerPriceUnit}>/hour</Text>
+                        </View>
                         <Text style={styles.footerPriceLabel}>or ${listing.dailyRate}/day</Text>
                     </View>
                     <TouchableOpacity
-                        style={styles.bookButton}
+                        style={styles.reserveButton}
                         onPress={() => router.push(`/booking?listingId=${listing.id}` as any)}
                     >
-                        <Text style={styles.bookButtonText}>Select Time & Book</Text>
+                        <Text style={styles.reserveButtonText}>Reserve</Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -188,7 +164,7 @@ export default function ListingDetailScreen() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#FFF',
+        backgroundColor: '#F9FAFB',
     },
     errorContainer: {
         flex: 1,
@@ -202,10 +178,11 @@ const styles = StyleSheet.create({
     },
     imageContainer: {
         position: 'relative',
+        backgroundColor: '#000',
     },
     image: {
         width: width,
-        height: 300,
+        height: 380,
     },
     backButton: {
         position: 'absolute',
@@ -223,98 +200,85 @@ const styles = StyleSheet.create({
         shadowRadius: 4,
         elevation: 3,
     },
-    imageIndicator: {
+    imageCounter: {
         position: 'absolute',
         bottom: 16,
-        left: 0,
-        right: 0,
-        flexDirection: 'row',
-        justifyContent: 'center',
-        gap: 6,
+        right: 16,
+        backgroundColor: 'rgba(0, 0, 0, 0.7)',
+        paddingHorizontal: 12,
+        paddingVertical: 6,
+        borderRadius: 8,
     },
-    dot: {
-        width: 6,
-        height: 6,
-        borderRadius: 3,
-        backgroundColor: 'rgba(255, 255, 255, 0.5)',
+    imageCounterText: {
+        color: '#FFF',
+        fontSize: 13,
+        fontWeight: '600' as const,
     },
-    activeDot: {
+    contentCard: {
         backgroundColor: '#FFF',
-        width: 20,
+        borderTopLeftRadius: 24,
+        borderTopRightRadius: 24,
+        marginTop: -24,
+        paddingTop: 24,
+        paddingHorizontal: 20,
     },
-    content: {
-        padding: 20,
-    },
-    header: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'flex-start',
-        marginBottom: 16,
-    },
-    titleContainer: {
-        flex: 1,
-        marginRight: 16,
+    titleSection: {
+        marginBottom: 20,
     },
     title: {
-        fontSize: 24,
+        fontSize: 26,
         fontWeight: '700' as const,
-        color: '#111827',
+        color: '#000',
         marginBottom: 8,
+        lineHeight: 32,
     },
-    ratingContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        gap: 4,
+    subtitle: {
+        fontSize: 16,
+        color: '#6B7280',
+        marginBottom: 4,
     },
-    ratingText: {
-        fontSize: 15,
-        fontWeight: '600' as const,
-        color: '#111827',
-    },
-    reviewCount: {
+    details: {
         fontSize: 15,
         color: '#6B7280',
     },
-    priceContainer: {
-        alignItems: 'flex-end',
+    statsRow: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingVertical: 16,
+        gap: 12,
     },
-    price: {
-        fontSize: 28,
+    statBadge: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 6,
+    },
+    statDivider: {
+        width: 1,
+        height: 20,
+        backgroundColor: '#E5E7EB',
+    },
+    statText: {
+        fontSize: 16,
         fontWeight: '700' as const,
         color: '#000',
     },
-    priceUnit: {
-        fontSize: 14,
-        color: '#6B7280',
-    },
-    locationContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        gap: 8,
-    },
-    address: {
-        fontSize: 15,
-        color: '#6B7280',
-        flex: 1,
+    statLabel: {
+        fontSize: 16,
+        color: '#000',
+        fontWeight: '400' as const,
     },
     divider: {
         height: 1,
-        backgroundColor: '#F0F0F0',
-        marginVertical: 20,
+        backgroundColor: '#E5E7EB',
+        marginVertical: 24,
     },
-    section: {
-        marginBottom: 24,
+    hostSection: {
+        marginBottom: 0,
     },
-    sectionTitle: {
-        fontSize: 18,
-        fontWeight: '700' as const,
-        color: '#111827',
-        marginBottom: 16,
-    },
-    hostContainer: {
+    hostHeader: {
         flexDirection: 'row',
         alignItems: 'center',
-        gap: 12,
+        gap: 16,
     },
     hostAvatar: {
         width: 56,
@@ -323,82 +287,74 @@ const styles = StyleSheet.create({
         backgroundColor: '#000',
         justifyContent: 'center',
         alignItems: 'center',
+        position: 'relative',
     },
     hostInitials: {
         fontSize: 20,
         fontWeight: '700' as const,
         color: '#FFF',
     },
+    superHostBadge: {
+        position: 'absolute',
+        bottom: -2,
+        right: -2,
+        width: 20,
+        height: 20,
+        borderRadius: 10,
+        backgroundColor: '#FF385C',
+        borderWidth: 2,
+        borderColor: '#FFF',
+    },
     hostInfo: {
         flex: 1,
     },
     hostName: {
-        fontSize: 17,
+        fontSize: 18,
         fontWeight: '600' as const,
-        color: '#111827',
+        color: '#000',
         marginBottom: 4,
     },
-    hostRating: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        gap: 4,
-    },
-    hostRatingText: {
+    hostMeta: {
         fontSize: 14,
         color: '#6B7280',
     },
-    detailsGrid: {
-        flexDirection: 'row',
-        flexWrap: 'wrap',
+    section: {
+        marginBottom: 0,
+    },
+    sectionTitle: {
+        fontSize: 20,
+        fontWeight: '700' as const,
+        color: '#000',
+        marginBottom: 16,
+    },
+    description: {
+        fontSize: 16,
+        lineHeight: 24,
+        color: '#000',
+    },
+    amenitiesList: {
         gap: 16,
     },
-    detailItem: {
-        width: '47%',
+    amenityRow: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 16,
+    },
+    amenityText: {
+        fontSize: 16,
+        color: '#000',
+    },
+    instructionsBox: {
         backgroundColor: '#F9FAFB',
         padding: 16,
         borderRadius: 12,
-    },
-    detailLabel: {
-        fontSize: 13,
-        color: '#6B7280',
-        marginBottom: 4,
-        textTransform: 'capitalize' as const,
-    },
-    detailValue: {
-        fontSize: 16,
-        fontWeight: '600' as const,
-        color: '#111827',
-        textTransform: 'capitalize' as const,
-    },
-    description: {
-        fontSize: 15,
-        lineHeight: 24,
-        color: '#4B5563',
-    },
-    instructionsBox: {
-        backgroundColor: '#F5F5F5',
-        padding: 16,
-        borderRadius: 12,
-        borderLeftWidth: 4,
+        borderLeftWidth: 3,
         borderLeftColor: '#000',
     },
     instructionsText: {
         fontSize: 15,
         lineHeight: 22,
         color: '#000',
-    },
-    amenitiesGrid: {
-        gap: 12,
-    },
-    amenityItem: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        gap: 12,
-        paddingVertical: 8,
-    },
-    amenityText: {
-        fontSize: 15,
-        color: '#111827',
     },
     spacer: {
         height: 100,
@@ -408,9 +364,10 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-between',
         padding: 20,
+        paddingBottom: 28,
         backgroundColor: '#FFF',
         borderTopWidth: 1,
-        borderTopColor: '#F0F0F0',
+        borderTopColor: '#E5E7EB',
         shadowColor: '#000',
         shadowOffset: { width: 0, height: -4 },
         shadowOpacity: 0.1,
@@ -420,22 +377,32 @@ const styles = StyleSheet.create({
     footerPrice: {
         flex: 1,
     },
+    priceRow: {
+        flexDirection: 'row',
+        alignItems: 'baseline',
+        marginBottom: 2,
+    },
     footerPriceAmount: {
-        fontSize: 20,
+        fontSize: 22,
         fontWeight: '700' as const,
-        color: '#111827',
+        color: '#000',
+    },
+    footerPriceUnit: {
+        fontSize: 16,
+        color: '#000',
+        marginLeft: 2,
     },
     footerPriceLabel: {
         fontSize: 14,
         color: '#6B7280',
     },
-    bookButton: {
+    reserveButton: {
         backgroundColor: '#000',
         paddingHorizontal: 32,
         paddingVertical: 16,
         borderRadius: 12,
     },
-    bookButtonText: {
+    reserveButtonText: {
         fontSize: 16,
         fontWeight: '700' as const,
         color: '#FFF',

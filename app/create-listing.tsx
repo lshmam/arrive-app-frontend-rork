@@ -1,4 +1,4 @@
-import { useRouter } from 'expo-router';
+import { Link, useRouter } from 'expo-router';
 import {
     Building2,
     Camera,
@@ -101,7 +101,7 @@ export default function CreateListingScreen() {
     });
 
     // Total steps in the flow
-    const totalSteps = 14;
+    const totalSteps = 15;
 
     // Calculate which phase we're in (1, 2, or 3)
     const getPhase = () => {
@@ -118,7 +118,7 @@ export default function CreateListingScreen() {
         } else if (phase === 2) {
             return Math.min(((currentStep - 5) / 5) * 100, 100);
         } else {
-            return Math.min(((currentStep - 10) / 4) * 100, 100);
+            return Math.min(((currentStep - 10) / 5) * 100, 100);
         }
     };
 
@@ -670,6 +670,38 @@ export default function CreateListingScreen() {
         </View>
     );
 
+    // Step 15: Success
+    const renderSuccess = () => (
+        <View style={[styles.stepContainer, styles.successContainer]}>
+            <View style={styles.successIconContainer}>
+                <Check size={48} color="#FFF" />
+            </View>
+            <Text style={styles.successTitle}>Listing published!</Text>
+            <Text style={styles.successSubtitle}>
+                Your parking space is now live and visible to thousands of drivers.
+            </Text>
+
+            <View style={styles.successCard}>
+                <Image source={{ uri: formData.photos[0] || 'https://images.unsplash.com/photo-1573348722427-f1d6d19f49f8?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80' }} style={styles.successImage} />
+                <View style={styles.successContent}>
+                    <Text style={styles.successCardTitle}>{formData.title}</Text>
+                    <Link href="/(tabs)/listings" asChild>
+                        <TouchableOpacity style={styles.successButton}>
+                            <Text style={styles.successButtonText}>View Listing</Text>
+                        </TouchableOpacity>
+                    </Link>
+                </View>
+            </View>
+
+            <TouchableOpacity
+                style={styles.dashboardButton}
+                onPress={() => router.navigate('/(tabs)/dashboard')}
+            >
+                <Text style={styles.dashboardButtonText}>Return to Dashboard</Text>
+            </TouchableOpacity>
+        </View>
+    );
+
     // Render current step content
     const renderStep = () => {
         switch (currentStep) {
@@ -688,6 +720,7 @@ export default function CreateListingScreen() {
             case 12: return renderBookingSettings();
             case 13: return renderPricing();
             case 14: return renderReview();
+            case 15: return renderSuccess();
             default: return null;
         }
     };
@@ -710,6 +743,7 @@ export default function CreateListingScreen() {
             case 12: return true;
             case 13: return formData.hourlyRate !== '' && formData.dailyRate !== '';
             case 14: return true;
+            case 15: return true;
             default: return false;
         }
     };
@@ -751,24 +785,26 @@ export default function CreateListingScreen() {
                 {renderStep()}
             </ScrollView>
 
-            <View style={styles.footer}>
-                {currentStep > 0 && (
-                    <TouchableOpacity onPress={handleBack}>
-                        <Text style={styles.backButton}>Back</Text>
+            {currentStep < 15 && (
+                <View style={styles.footer}>
+                    {currentStep > 0 && (
+                        <TouchableOpacity onPress={handleBack}>
+                            <Text style={styles.backButton}>Back</Text>
+                        </TouchableOpacity>
+                    )}
+                    <TouchableOpacity
+                        style={[
+                            styles.nextButton,
+                            !canProceed() && styles.nextButtonDisabled,
+                            currentStep === 0 && styles.nextButtonFull,
+                        ]}
+                        onPress={handleNext}
+                        disabled={!canProceed()}
+                    >
+                        <Text style={styles.nextButtonText}>{getButtonText()}</Text>
                     </TouchableOpacity>
-                )}
-                <TouchableOpacity
-                    style={[
-                        styles.nextButton,
-                        !canProceed() && styles.nextButtonDisabled,
-                        currentStep === 0 && styles.nextButtonFull,
-                    ]}
-                    onPress={handleNext}
-                    disabled={!canProceed()}
-                >
-                    <Text style={styles.nextButtonText}>{getButtonText()}</Text>
-                </TouchableOpacity>
-            </View>
+                </View>
+            )}
         </View>
     );
 }
@@ -836,6 +872,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         paddingHorizontal: 20,
         paddingVertical: 20,
+        paddingBottom: 50,
         borderTopWidth: 1,
         borderTopColor: '#F0F0F0',
     },
@@ -1358,5 +1395,76 @@ const styles = StyleSheet.create({
     checklistText: {
         fontSize: 16,
         color: '#000',
+    },
+
+    // Success Screen
+    successContainer: {
+        alignItems: 'center',
+        paddingTop: 60,
+    },
+    successIconContainer: {
+        width: 80,
+        height: 80,
+        borderRadius: 40,
+        backgroundColor: '#00C853',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginBottom: 24,
+    },
+    successTitle: {
+        fontSize: 28,
+        fontWeight: '700',
+        color: '#000',
+        marginBottom: 12,
+        textAlign: 'center',
+    },
+    successSubtitle: {
+        fontSize: 16,
+        color: '#666',
+        textAlign: 'center',
+        marginBottom: 40,
+        paddingHorizontal: 20,
+        lineHeight: 24,
+    },
+    successCard: {
+        width: '100%',
+        backgroundColor: '#FFF',
+        borderRadius: 16,
+        borderWidth: 1,
+        borderColor: '#E0E0E0',
+        overflow: 'hidden',
+        marginBottom: 40,
+    },
+    successImage: {
+        width: '100%',
+        height: 200,
+    },
+    successContent: {
+        padding: 20,
+    },
+    successCardTitle: {
+        fontSize: 20,
+        fontWeight: '600',
+        color: '#000',
+        marginBottom: 16,
+    },
+    successButton: {
+        backgroundColor: '#000',
+        paddingVertical: 12,
+        borderRadius: 8,
+        alignItems: 'center',
+    },
+    successButtonText: {
+        color: '#FFF',
+        fontSize: 16,
+        fontWeight: '600',
+    },
+    dashboardButton: {
+        paddingVertical: 12,
+    },
+    dashboardButtonText: {
+        color: '#666',
+        fontSize: 16,
+        fontWeight: '600',
     },
 });
