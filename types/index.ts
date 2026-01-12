@@ -2,7 +2,7 @@ export type ListingStatus = 'active' | 'pending' | 'draft' | 'inactive';
 export type SpaceType = 'outdoor' | 'indoor' | 'garage' | 'driveway' | 'street' | 'lot';
 export type VehicleType = 'sedan' | 'suv' | 'truck' | 'motorcycle' | 'van';
 export type AccessType = 'key' | 'code' | 'app' | 'attendant' | 'open';
-export type BookingStatus = 'upcoming' | 'active' | 'completed' | 'cancelled';
+export type BookingStatus = 'upcoming' | 'active' | 'Past' | 'cancelled';
 
 export interface ParkingListing {
     id: string;

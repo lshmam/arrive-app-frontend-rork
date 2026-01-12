@@ -135,7 +135,7 @@ export const bookings: Booking[] = [
         startTime: new Date('2026-01-08T10:00:00'),
         endTime: new Date('2026-01-08T22:00:00'),
         totalAmount: 72.00,
-        status: 'completed',
+        status: 'Past',
         paymentStatus: 'paid',
     },
 ];
@@ -225,7 +225,7 @@ export const renterBookings: RenterBooking[] = [
         startTime: new Date('2026-01-05T10:00:00'),
         endTime: new Date('2026-01-05T22:00:00'),
         totalAmount: 72.00,
-        status: 'completed',
+        status: 'Past',
         paymentStatus: 'paid',
     },
 ];

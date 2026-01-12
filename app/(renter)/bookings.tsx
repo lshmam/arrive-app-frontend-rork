@@ -1,17 +1,17 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image } from 'react-native';
-import { Stack } from 'expo-router';
-import { Calendar, MapPin, Clock, ChevronRight } from 'lucide-react-native';
 import { renterBookings } from '@/constants/mockData';
 import { RenterBooking } from '@/types';
+import { Stack } from 'expo-router';
+import { Calendar, ChevronRight, Clock, MapPin } from 'lucide-react-native';
+import React, { useState } from 'react';
+import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 export default function RenterBookingsScreen() {
-    const [selectedFilter, setSelectedFilter] = useState<'upcoming' | 'active' | 'completed'>('upcoming');
+    const [selectedFilter, setSelectedFilter] = useState<'upcoming' | 'active' | 'Past'>('upcoming');
 
     const filteredBookings = renterBookings.filter((booking) => {
         if (selectedFilter === 'upcoming') return booking.status === 'upcoming';
         if (selectedFilter === 'active') return booking.status === 'active';
-        return booking.status === 'completed';
+        return booking.status === 'Past';
     });
 
     const formatDate = (date: Date) => {
@@ -36,7 +36,7 @@ export default function RenterBookingsScreen() {
                 return '#000';
             case 'active':
                 return '#000';
-            case 'completed':
+            case 'Past':
                 return '#666';
             default:
                 return '#666';
@@ -49,7 +49,7 @@ export default function RenterBookingsScreen() {
                 return '#F5F5F5';
             case 'active':
                 return '#E5E5E5';
-            case 'completed':
+            case 'Past':
                 return '#F3F4F6';
             default:
                 return '#F3F4F6';
@@ -129,11 +129,11 @@ export default function RenterBookingsScreen() {
                         </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
-                        style={[styles.filterButton, selectedFilter === 'completed' && styles.filterButtonActive]}
-                        onPress={() => setSelectedFilter('completed')}
+                        style={[styles.filterButton, selectedFilter === 'Past' && styles.filterButtonActive]}
+                        onPress={() => setSelectedFilter('Past')}
                     >
-                        <Text style={[styles.filterText, selectedFilter === 'completed' && styles.filterTextActive]}>
-                            Completed
+                        <Text style={[styles.filterText, selectedFilter === 'Past' && styles.filterTextActive]}>
+                            Past
                         </Text>
                     </TouchableOpacity>
                 </View>

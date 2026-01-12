@@ -15,7 +15,7 @@ export default function BookingsScreen() {
   const statusColors: Record<BookingStatus, string> = {
     upcoming: '#000',
     active: '#000',
-    completed: '#666',
+    Past: '#666',
     cancelled: '#999',
   };
 
@@ -64,11 +64,11 @@ export default function BookingsScreen() {
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={[styles.filterButton, filter === 'completed' && styles.filterButtonActive]}
-            onPress={() => setFilter('completed')}
+            style={[styles.filterButton, filter === 'Past' && styles.filterButtonActive]}
+            onPress={() => setFilter('Past')}
           >
-            <Text style={[styles.filterText, filter === 'completed' && styles.filterTextActive]}>
-              Completed
+            <Text style={[styles.filterText, filter === 'Past' && styles.filterTextActive]}>
+              Past
             </Text>
           </TouchableOpacity>
         </View>
