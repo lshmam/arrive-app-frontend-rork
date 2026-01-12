@@ -8,16 +8,31 @@ const { width, height } = Dimensions.get('window');
 interface ParkingMapProps {
     listings: ParkingListing[];
     onListingPress: (id: string) => void;
+    focusedRegion?: {
+        latitude: number;
+        longitude: number;
+        latitudeDelta: number;
+        longitudeDelta: number;
+    } | null;
 }
 
-export default function ParkingMap({ listings, onListingPress }: ParkingMapProps) {
+export default function ParkingMap({ listings, onListingPress, focusedRegion }: ParkingMapProps) {
+    const mapRef = React.useRef<MapView>(null);
+
+    React.useEffect(() => {
+        if (focusedRegion && mapRef.current) {
+            mapRef.current.animateToRegion(focusedRegion, 1000);
+        }
+    }, [focusedRegion]);
+
     return (
         <MapView
+            ref={mapRef}
             provider={PROVIDER_GOOGLE}
             style={styles.map}
             initialRegion={{
-                latitude: 43.6532,
-                longitude: -79.3832,
+                latitude: 49.2827,
+                longitude: -123.1207,
                 latitudeDelta: 0.1,
                 longitudeDelta: 0.1,
             }}
