@@ -1,5 +1,5 @@
 import { Tabs } from "expo-router";
-import { Map, Calendar, User } from "lucide-react-native";
+import { Calendar, Map, User } from "lucide-react-native";
 import React from "react";
 
 export default function RenterTabLayout() {
@@ -12,8 +12,8 @@ export default function RenterTabLayout() {
                     backgroundColor: '#FFF',
                     borderTopWidth: 1,
                     borderTopColor: '#F0F0F0',
-                    paddingBottom: 8,
-                    height: 64,
+                    paddingBottom: 20,
+                    height: 80,
                 },
             }}
         >

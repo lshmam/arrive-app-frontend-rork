@@ -1,5 +1,5 @@
 import { Redirect } from 'expo-router';
 
 export default function Index() {
-    return <Redirect href={"/(tabs)" as any} />;
+    return <Redirect href={"/(renter)/map" as any} />;
 }

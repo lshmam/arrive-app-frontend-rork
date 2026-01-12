@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
-import { Stack } from 'expo-router';
-import { Calendar, Clock, Car, MapPin, MessageCircle, CheckCircle } from 'lucide-react-native';
 import { bookings } from '@/constants/mockData';
 import { BookingStatus } from '@/types';
+import { Stack } from 'expo-router';
+import { Calendar, Car, CheckCircle, Clock, MapPin, MessageCircle } from 'lucide-react-native';
+import React, { useState } from 'react';
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 export default function BookingsScreen() {
   const [filter, setFilter] = useState<BookingStatus | 'all'>('all');

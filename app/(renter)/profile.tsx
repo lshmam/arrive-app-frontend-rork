@@ -1,10 +1,12 @@
-import React from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
-import { Stack } from 'expo-router';
-import { Mail, Phone, Calendar, Star, CreditCard, Settings, HelpCircle, LogOut, ChevronRight } from 'lucide-react-native';
 import { renterProfile } from '@/constants/mockData';
+import { Stack, useRouter } from 'expo-router';
+import { Calendar, ChevronRight, CreditCard, HelpCircle, Home, LogOut, Mail, Phone, Settings, Star } from 'lucide-react-native';
+import React from 'react';
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 export default function RenterProfileScreen() {
+    const router = useRouter();
+
     const formatDate = (date: Date) => {
         return date.toLocaleDateString('en-US', {
             month: 'long',
@@ -129,6 +131,17 @@ export default function RenterProfileScreen() {
                                 </TouchableOpacity>
                             </View>
                         ))}
+                    </View>
+
+                    {/* Switch to hosting badge */}
+                    <View style={styles.switchBadgeContainer}>
+                        <TouchableOpacity
+                            style={styles.switchBadge}
+                            onPress={() => router.push('/(tabs)/dashboard' as any)}
+                        >
+                            <Home size={18} color="#FFF" />
+                            <Text style={styles.switchBadgeText}>Switch to hosting</Text>
+                        </TouchableOpacity>
                     </View>
                 </View>
 
@@ -335,6 +348,29 @@ const styles = StyleSheet.create({
         height: 1,
         backgroundColor: '#F0F0F0',
         marginLeft: 64,
+    },
+    switchBadgeContainer: {
+        alignItems: 'center',
+        paddingVertical: 16,
+    },
+    switchBadge: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 8,
+        backgroundColor: '#000',
+        paddingHorizontal: 20,
+        paddingVertical: 12,
+        borderRadius: 24,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
+        elevation: 3,
+    },
+    switchBadgeText: {
+        fontSize: 15,
+        fontWeight: '600' as const,
+        color: '#FFF',
     },
     logoutButton: {
         flexDirection: 'row',

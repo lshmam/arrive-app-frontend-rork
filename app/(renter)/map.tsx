@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, ScrollView, Image, Dimensions } from 'react-native';
-import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
-import { Search, SlidersHorizontal, Star, Zap } from 'lucide-react-native';
-import { router } from 'expo-router';
 import { listings } from '@/constants/mockData';
 import { ParkingListing } from '@/types';
+import { router } from 'expo-router';
+import { Search, SlidersHorizontal, Star, Zap } from 'lucide-react-native';
+import React, { useState } from 'react';
+import { Dimensions, Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 
 const { width, height } = Dimensions.get('window');
 
@@ -62,7 +62,7 @@ export default function RenterHomeScreen() {
                     <Search size={20} color="#9CA3AF" />
                     <TextInput
                         style={styles.searchInput}
-                        placeholder="Where are you parking?"
+                        placeholder="Where are you headed?"
                         placeholderTextColor="#9CA3AF"
                         value={searchQuery}
                         onChangeText={setSearchQuery}

@@ -1,8 +1,8 @@
+import { bookings, listings, ownerProfile } from '@/constants/mockData';
+import { Link, Stack } from 'expo-router';
+import { ArrowRight, Calendar, DollarSign, MapPin, Plus } from 'lucide-react-native';
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image } from 'react-native';
-import { Stack, Link } from 'expo-router';
-import { DollarSign, Calendar, MapPin, Plus, ArrowRight } from 'lucide-react-native';
-import { ownerProfile, listings, bookings } from '@/constants/mockData';
+import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 export default function OwnerDashboardScreen() {
   const todayEarnings = 247.50;
@@ -74,7 +74,7 @@ export default function OwnerDashboardScreen() {
             <Link href="/listings" asChild>
               <TouchableOpacity style={styles.seeAllButton}>
                 <Text style={styles.seeAllText}>See All</Text>
-                <ArrowRight size={16} color="#0066CC" />
+                <ArrowRight size={16} color="#000000" />
               </TouchableOpacity>
             </Link>
           </View>
@@ -141,7 +141,7 @@ const styles = StyleSheet.create({
     fontWeight: '600' as const,
   },
   earningsCard: {
-    backgroundColor: '#0066CC',
+    backgroundColor: '#000000',
     marginHorizontal: 20,
     marginTop: 20,
     borderRadius: 16,
@@ -232,7 +232,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#00C853',
+    backgroundColor: '#000000',
     marginHorizontal: 20,
     marginTop: 20,
     padding: 16,

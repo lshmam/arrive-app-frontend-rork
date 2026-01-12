@@ -1,8 +1,8 @@
-import React from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { earnings, ownerProfile } from '@/constants/mockData';
 import { Stack } from 'expo-router';
-import { DollarSign, TrendingUp, Clock, CheckCircle, Calendar, CreditCard } from 'lucide-react-native';
-import { ownerProfile, earnings } from '@/constants/mockData';
+import { Calendar, CheckCircle, Clock, CreditCard, DollarSign, TrendingUp } from 'lucide-react-native';
+import React from 'react';
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 export default function EarningsScreen() {
     const pendingAmount = earnings
@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#F8F9FA',
     },
     totalCard: {
-        backgroundColor: '#0066CC',
+        backgroundColor: '#000000',
         margin: 20,
         borderRadius: 16,
         padding: 24,

@@ -1,13 +1,22 @@
-import React from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
-import { Stack } from 'expo-router';
-import {
-    Mail, Phone, Calendar, Star, Award,
-    CreditCard, Bell, Shield, HelpCircle, LogOut, ChevronRight
-} from 'lucide-react-native';
 import { ownerProfile } from '@/constants/mockData';
+import { Stack, useRouter } from 'expo-router';
+import {
+    Award,
+    Bell,
+    Calendar,
+    Car,
+    ChevronRight,
+    CreditCard,
+    HelpCircle, LogOut,
+    Mail, Phone,
+    Shield,
+    Star
+} from 'lucide-react-native';
+import React from 'react';
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 export default function ProfileScreen() {
+    const router = useRouter();
     const formatDate = (date: Date) => {
         return new Date(date).toLocaleDateString('en-US', {
             month: 'long',
@@ -108,6 +117,17 @@ export default function ProfileScreen() {
                             subtitle="Control your privacy settings"
                             color="#00C853"
                         />
+
+                        {/* Switch to driver view badge */}
+                        <View style={styles.switchBadgeContainer}>
+                            <TouchableOpacity
+                                style={styles.switchBadge}
+                                onPress={() => router.push('/(renter)/map' as any)}
+                            >
+                                <Car size={18} color="#FFF" />
+                                <Text style={styles.switchBadgeText}>Switch to driver view</Text>
+                            </TouchableOpacity>
+                        </View>
                     </View>
                 </View>
 
@@ -271,6 +291,29 @@ const styles = StyleSheet.create({
     menuSubtitle: {
         fontSize: 13,
         color: '#666',
+    },
+    switchBadgeContainer: {
+        alignItems: 'center',
+        paddingVertical: 16,
+    },
+    switchBadge: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 8,
+        backgroundColor: '#000',
+        paddingHorizontal: 20,
+        paddingVertical: 12,
+        borderRadius: 24,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
+        elevation: 3,
+    },
+    switchBadgeText: {
+        fontSize: 15,
+        fontWeight: '600' as const,
+        color: '#FFF',
     },
     logoutButton: {
         flexDirection: 'row',
