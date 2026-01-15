@@ -1,48 +1,68 @@
 import { Tabs } from "expo-router";
-import { Home, MapPin, Calendar, DollarSign, User } from "lucide-react-native";
+import { Calendar, Home, MapPin, Plus, User } from "lucide-react-native";
 import React from "react";
+import { View } from "react-native";
 
 export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: "#000",
-        headerShown: true,
+        tabBarActiveTintColor: "#EAB308",
+        tabBarInactiveTintColor: "#666",
+        headerShown: false,
         tabBarStyle: {
-          backgroundColor: '#FFF',
-          borderTopWidth: 1,
-          borderTopColor: '#F0F0F0',
+          backgroundColor: '#000',
+          borderTopWidth: 0,
+          paddingTop: 10,
           paddingBottom: 20,
-          height: 80,
+          height: 85,
         },
       }}
     >
       <Tabs.Screen
-        name="dashboard"
+        name="index"
         options={{
-          title: "Dashboard",
+          title: "Home",
           tabBarIcon: ({ color }) => <Home size={24} color={color} />,
         }}
       />
       <Tabs.Screen
-        name="listings"
+        name="explore"
         options={{
-          title: "Listings",
+          title: "Explore",
           tabBarIcon: ({ color }) => <MapPin size={24} color={color} />,
         }}
       />
       <Tabs.Screen
-        name="bookings"
+        name="create-listing-modal"
+        listeners={({ navigation }) => ({
+          tabPress: (e) => {
+            e.preventDefault();
+            navigation.navigate('create-listing');
+          },
+        })}
         options={{
-          title: "Bookings",
-          tabBarIcon: ({ color }) => <Calendar size={24} color={color} />,
+          title: "",
+          tabBarIcon: ({ color }) => (
+            <View style={{
+              width: 50,
+              height: 50,
+              backgroundColor: '#EAB308',
+              borderRadius: 25,
+              justifyContent: 'center',
+              alignItems: 'center',
+              marginBottom: 20,
+            }}>
+              <Plus size={30} color="#000" />
+            </View>
+          ),
         }}
       />
       <Tabs.Screen
-        name="earnings"
+        name="activity"
         options={{
-          title: "Earnings",
-          tabBarIcon: ({ color }) => <DollarSign size={24} color={color} />,
+          title: "Activity",
+          tabBarIcon: ({ color }) => <Calendar size={24} color={color} />,
         }}
       />
       <Tabs.Screen
@@ -52,6 +72,12 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => <User size={24} color={color} />,
         }}
       />
+
+      {/* Hidden tabs that we might still want accessible via deep link or temporarily */}
+      <Tabs.Screen name="dashboard" options={{ href: null }} />
+      <Tabs.Screen name="listings" options={{ href: null }} />
+      <Tabs.Screen name="bookings" options={{ href: null }} />
+      <Tabs.Screen name="earnings" options={{ href: null }} />
     </Tabs>
   );
 }

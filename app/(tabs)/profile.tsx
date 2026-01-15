@@ -1,10 +1,10 @@
+import Header from '@/components/Header';
 import { ownerProfile } from '@/constants/mockData';
 import { Stack, useRouter } from 'expo-router';
 import {
     Award,
     Bell,
     Calendar,
-    Car,
     ChevronRight,
     CreditCard,
     HelpCircle, LogOut,
@@ -38,8 +38,11 @@ export default function ProfileScreen() {
     );
 
     return (
-        <>
-            <Stack.Screen options={{ title: 'Profile' }} />
+        <View style={styles.mainContainer}>
+            <Stack.Screen options={{ headerShown: false }} />
+
+            <Header />
+
             <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
                 <View style={styles.profileHeader}>
                     <View style={styles.avatarContainer}>
@@ -69,7 +72,7 @@ export default function ProfileScreen() {
                     <Text style={styles.sectionTitle}>Account Information</Text>
                     <View style={styles.card}>
                         <View style={styles.infoRow}>
-                            <Mail size={18} color="#666" />
+                            <Mail size={18} color="#888" />
                             <View style={styles.infoContent}>
                                 <Text style={styles.infoLabel}>Email</Text>
                                 <Text style={styles.infoValue}>{ownerProfile.email}</Text>
@@ -77,7 +80,7 @@ export default function ProfileScreen() {
                         </View>
                         <View style={styles.divider} />
                         <View style={styles.infoRow}>
-                            <Phone size={18} color="#666" />
+                            <Phone size={18} color="#888" />
                             <View style={styles.infoContent}>
                                 <Text style={styles.infoLabel}>Phone</Text>
                                 <Text style={styles.infoValue}>{ownerProfile.phone}</Text>
@@ -85,7 +88,7 @@ export default function ProfileScreen() {
                         </View>
                         <View style={styles.divider} />
                         <View style={styles.infoRow}>
-                            <Calendar size={18} color="#666" />
+                            <Calendar size={18} color="#888" />
                             <View style={styles.infoContent}>
                                 <Text style={styles.infoLabel}>Member Since</Text>
                                 <Text style={styles.infoValue}>{formatDate(ownerProfile.joinedDate)}</Text>
@@ -118,16 +121,7 @@ export default function ProfileScreen() {
                             color="#00C853"
                         />
 
-                        {/* Switch to driver view badge */}
-                        <View style={styles.switchBadgeContainer}>
-                            <TouchableOpacity
-                                style={styles.switchBadge}
-                                onPress={() => router.push('/(renter)/map' as any)}
-                            >
-                                <Car size={18} color="#FFF" />
-                                <Text style={styles.switchBadgeText}>Switch to driver view</Text>
-                            </TouchableOpacity>
-                        </View>
+
                     </View>
                 </View>
 
@@ -152,19 +146,24 @@ export default function ProfileScreen() {
                     <Text style={styles.footerText}>Version 1.0.0</Text>
                 </View>
             </ScrollView>
-        </>
+        </View>
     );
 }
 
 const styles = StyleSheet.create({
+    mainContainer: {
+        flex: 1,
+        backgroundColor: '#111',
+        paddingTop: 60,
+    },
     container: {
         flex: 1,
-        backgroundColor: '#F8F9FA',
+        backgroundColor: '#111',
     },
     profileHeader: {
-        backgroundColor: '#FFF',
+        backgroundColor: '#111',
         alignItems: 'center',
-        paddingTop: 32,
+        paddingTop: 10,
         paddingBottom: 24,
         paddingHorizontal: 20,
     },
@@ -196,17 +195,17 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderWidth: 3,
-        borderColor: '#FFF',
+        borderColor: '#111',
     },
     profileName: {
         fontSize: 24,
         fontWeight: '700' as const,
-        color: '#000',
+        color: '#FFF',
         marginBottom: 4,
     },
     profileJoined: {
         fontSize: 14,
-        color: '#666',
+        color: '#888',
         marginBottom: 16,
     },
     statsRow: {
@@ -221,11 +220,11 @@ const styles = StyleSheet.create({
     statValue: {
         fontSize: 16,
         fontWeight: '700' as const,
-        color: '#000',
+        color: '#FFF',
     },
     statLabel: {
         fontSize: 14,
-        color: '#666',
+        color: '#888',
     },
     section: {
         marginTop: 24,
@@ -234,11 +233,11 @@ const styles = StyleSheet.create({
     sectionTitle: {
         fontSize: 18,
         fontWeight: '700' as const,
-        color: '#000',
+        color: '#FFF',
         marginBottom: 12,
     },
     card: {
-        backgroundColor: '#FFF',
+        backgroundColor: '#222',
         borderRadius: 12,
         overflow: 'hidden',
     },
@@ -253,17 +252,17 @@ const styles = StyleSheet.create({
     },
     infoLabel: {
         fontSize: 13,
-        color: '#666',
+        color: '#888',
         marginBottom: 4,
     },
     infoValue: {
         fontSize: 15,
         fontWeight: '600' as const,
-        color: '#000',
+        color: '#FFF',
     },
     divider: {
         height: 1,
-        backgroundColor: '#F0F0F0',
+        backgroundColor: '#333',
         marginLeft: 16,
     },
     menuItem: {
@@ -285,12 +284,12 @@ const styles = StyleSheet.create({
     menuTitle: {
         fontSize: 15,
         fontWeight: '600' as const,
-        color: '#000',
+        color: '#FFF',
         marginBottom: 2,
     },
     menuSubtitle: {
         fontSize: 13,
-        color: '#666',
+        color: '#888',
     },
     switchBadgeContainer: {
         alignItems: 'center',
@@ -319,7 +318,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#FFF',
+        backgroundColor: '#222',
         marginHorizontal: 20,
         marginTop: 24,
         padding: 16,
@@ -337,6 +336,6 @@ const styles = StyleSheet.create({
     },
     footerText: {
         fontSize: 13,
-        color: '#999',
+        color: '#666',
     },
 });

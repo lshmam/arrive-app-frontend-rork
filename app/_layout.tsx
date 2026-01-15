@@ -13,7 +13,7 @@ function RootLayoutNav() {
     <Stack screenOptions={{ headerBackTitle: "Back" }}>
       <Stack.Screen name="index" options={{ headerShown: false }} />
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-      <Stack.Screen name="(renter)" options={{ headerShown: false }} />
+
       <Stack.Screen
         name="create-listing"
         options={{
